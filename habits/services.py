@@ -6,6 +6,7 @@ from django_celery_beat.models import CrontabSchedule, PeriodicTask
 from habits.models import Habit
 
 
+
 def create_replacements(habit: Habit) -> dict[str, str | list[str]]:
     """Renders a dict of replacements."""
     m = datetime.fromisoformat(habit.time).time().minute

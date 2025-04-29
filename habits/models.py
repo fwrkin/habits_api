@@ -76,3 +76,4 @@ class Habit(models.Model):
     is_public = models.BooleanField(
         verbose_name="public or not", help_text="Select whether you want other users see your habit."
     )
+

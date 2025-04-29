@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django_celery_beat.models import PeriodicTask
 from rest_framework import generics
 
+
 from habits.models import Habit
 from habits.paginators import HabitPagination
 from habits.serializers import HabitSerializer, PublicHabitSerializer

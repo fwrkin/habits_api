@@ -1,6 +1,7 @@
 import requests
 from celery import shared_task
 
+
 from config.settings import TELEGRAM_BOT_TOKEN
 from habits.models import Habit
 

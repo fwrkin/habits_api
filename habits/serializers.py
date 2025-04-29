@@ -11,6 +11,7 @@ class HabitSerializer(serializers.ModelSerializer):
         fields = "__all__"
         validators = [HabitValidator()]
 
+
     def to_internal_value(self, data):
         if self.instance:
             if not data.get("days_of_week"):
