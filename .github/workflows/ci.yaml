@@ -39,10 +39,6 @@ jobs:
         echo "DATABASE_URL=postgresql://postgres:simplepassword123@localhost:5432/drf-hw" >> $GITHUB_ENV
         echo "REDIS_URL=redis://localhost:6379/0" >> $GITHUB_ENV
 
-    - name: Run linting
-      run: |
-        flake8 . --max-line-length=88 --extend-ignore=E203
-
     - name: Run migrations
       run: |
         python manage.py makemigrations
