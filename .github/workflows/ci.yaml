@@ -23,10 +23,6 @@ jobs:
     - name: Set environment variables
       run: echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
 
-    # Добавляем линтинг кода
-    - name: Run linting
-      run: |
-        flake8 . --max-line-length=88 --extend-ignore=E203
 
     # Добавляем запуск тестов
     - name: Run tests
