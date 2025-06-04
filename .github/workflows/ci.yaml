@@ -77,8 +77,8 @@ jobs:
             ls -la
             # Передаем переменные окружения для docker-compose
             export POSTGRES_USER=postgres
-            export POSTGRES_PASSWORD=simplepassword123
-            export POSTGRES_DB=drf-hw
+            export POSTGRES_PASSWORD=ethereal
+            export POSTGRES_DB=drfproj
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
             docker-compose down --remove-orphans
             docker-compose up -d --build
