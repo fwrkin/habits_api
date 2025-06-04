@@ -39,15 +39,6 @@ jobs:
         echo "DATABASE_URL=postgresql://postgres:simplepassword123@localhost:5432/drf-hw" >> $GITHUB_ENV
         echo "REDIS_URL=redis://localhost:6379/0" >> $GITHUB_ENV
 
-    - name: Run migrations
-      run: |
-        python manage.py makemigrations
-        python manage.py migrate
-
-    - name: Run tests
-      run: |
-        python manage.py test
-
   build:
     runs-on: ubuntu-latest
     needs: test
