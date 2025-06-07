@@ -36,17 +36,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Set up Python on server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            export PATH="$HOME/.pyenv/bin:$PATH"
-            eval "$(pyenv init --path)"
-            eval "$(pyenv init -)"
-            pyenv shell 3.12
-            python -m pip install --upgrade pip
-            pip install -r /path/to/your/app/requirements.txt
-          EOF
-
       - name: Apply migrations
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
