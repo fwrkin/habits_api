@@ -43,13 +43,7 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-      - name: Build and push Docker images
-        run: |
-          docker-compose -f docker-compose.yaml build
-          docker tag habit_tracker-web:latest fwrkin/habit_tracker-web:latest
-          docker tag habit_tracker-celery:latest fwrkin/habit_tracker-celery:latest
-          docker push fwrkin/habit_tracker-web:latest
-            docker push fwrkin/habit_tracker-celery:latest
+
       - name: Debug SSH Key and Variables
         run: |
           echo "SSH Key presence check: ${{ secrets.SERVER_SSH_KEY != '' && 'Key exists' || 'Key is empty' }}"
