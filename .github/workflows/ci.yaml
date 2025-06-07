@@ -44,13 +44,6 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Debug SSH Key and Variables
-        run: |
-          echo "SSH Key presence check: ${{ secrets.SERVER_SSH_KEY != '' && 'Key exists' || 'Key is empty' }}"
-          echo "Host presence check: ${{ secrets.SERVER_IP != '' && 'Host exists' || 'Host is empty' }}"
-          echo "Username presence check: ${{ secrets.SERVER_USERNAME != '' && 'Username exists' || 'Username is empty' }}"
-          echo "SSH Key sample (first 50 chars):"
-          echo "${{ secrets.SERVER_SSH_KEY }}" | head -n 2 | cut -c -50
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
