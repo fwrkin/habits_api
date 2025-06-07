@@ -35,3 +35,55 @@ jobs:
         uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Verify SSH connection
+        run: |
+            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP  }} "echo SSH connection successful"
+
+            - name: Copy files to server
+              run: |
+                scp -o StrictHostKeyChecking=no -r ./* ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/path/to/your/app
+
+            - name: Set up Python on server
+              run: |
+                ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+                  export PATH="$HOME/.pyenv/bin:$PATH"
+                  eval "$(pyenv init --path)"
+                  eval "$(pyenv init -)"
+                  pyenv shell 3.12
+                  python -m pip install --upgrade pip
+                  pip install -r /path/to/your/app/requirements.txt
+                EOF
+
+            - name: Apply migrations
+              run: |
+                ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+                  export PATH="$HOME/.pyenv/bin:$PATH"
+                  eval "$(pyenv init --path)"
+                  eval "$(pyenv init -)"
+                  pyenv shell 3.12
+                  cd /path/to/your/app
+                  python manage.py migrate
+                EOF
+
+            - name: Collect static files
+              run: |
+                ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+                  export PATH="$HOME/.pyenv/bin:$PATH"
+                  eval "$(pyenv init --path)"
+                  eval "$(pyenv init -)"
+                  pyenv shell 3.12
+                  cd /path/to/your/app
+                  python manage.py collectstatic --noinput
+                EOF
+
+            - name: Restart application
+              run: |
+                ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+                  sudo systemctl restart gunicorn
+                  sudo systemctl reload nginx
+                EOF
+
+            - name: Verify deployment
+              run: |
+                curl --fail http://${{ secrets.SSH_HOST }}/ || exit 1
