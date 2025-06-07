@@ -4,8 +4,6 @@ services:
     volumes:
       - .:/app
       - static_volume:/app/static
-    ports:
-      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -13,7 +11,7 @@ services:
         condition: service_started
     env_file:
       - .env
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: gunicorn --bind 0.0.0.0:8000 config.wsgi:application  # Используем Gunicorn вместо runserver
 
   db:
     image: postgres:16.0
@@ -62,14 +60,18 @@ services:
     env_file:
       - .env
 
-#  nginx:
-#    build:
-#      context: .
-#      dockerfile: ./nginx/Dockerfile
-#    ports:
-#      - "80:80"
-#    depends_on:
-#      - web
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/app/static  # Монтируем статические файлы
+    env_file:
+      - .env
 
 volumes:
   postgres_data:

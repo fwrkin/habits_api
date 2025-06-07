@@ -1,8 +1,7 @@
-# Используем официальный образ Nginx
-FROM nginx:latest
+FROM nginx:1.25-alpine
 
-# Копируем файл конфигурации Nginx в контейнер
-COPY nginx.conf /etc/nginx/nginx.conf
+# Копируем конфигурацию Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Открываем порт 80 для HTTP-трафика
-EXPOSE 80
+# Указываем рабочий каталог
+WORKDIR /app
