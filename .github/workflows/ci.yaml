@@ -45,7 +45,7 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build and push Docker images
         run: |
-          docker-compose -f docker-compose.ymal build
+          docker-compose -f docker-compose.yaml build
           docker tag habit_tracker-web:latest fwrkin/habit_tracker-web:latest
           docker tag habit_tracker-celery:latest fwrkin/habit_tracker-celery:latest
           docker push fwrkin/habit_tracker-web:latest
