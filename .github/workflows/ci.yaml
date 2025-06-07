@@ -46,10 +46,10 @@ jobs:
       - name: Build and push Docker images
         run: |
           docker-compose -f docker-compose.yml build
-          docker tag habit_tracker-web:latest rilzsnep/habit_tracker-web:latest
-          docker tag habit_tracker-celery:latest rilzsnep/habit_tracker-celery:latest
-          docker push rilzsnep/habit_tracker-web:latest
-          docker push rilzsnep/habit_tracker-celery:latest
+          docker tag habit_tracker-web:latest fwrkin/habit_tracker-web:latest
+          docker tag habit_tracker-celery:latest fwrkin/habit_tracker-celery:latest
+          docker push fwrkin/habit_tracker-web:latest
+          docker push fwrkin/habit_tracker-celery:latest
       - name: Debug SSH Key and Variables
         run: |
           echo "SSH Key presence check: ${{ secrets.SERVER_SSH_KEY != '' && 'Key exists' || 'Key is empty' }}"
