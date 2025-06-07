@@ -53,7 +53,7 @@ jobs:
         run: |
           docker build -t your_django_app:latest .
 
-  eploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: [ test, build ]
     if: github.ref == 'refs/heads/main' && success()
