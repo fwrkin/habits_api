@@ -53,7 +53,7 @@ jobs:
           port: 22
           command_timeout: 20m  # Увеличиваем таймаут до 20 минут
           script: |
-            cd /home/rilzsnep/habit_tracker
+            cd /home/fwrkin/habit_tracker
             git config pull.rebase false  # Устанавливаем стратегию merge
             git pull origin master
             docker-compose -f docker-compose.yml down
