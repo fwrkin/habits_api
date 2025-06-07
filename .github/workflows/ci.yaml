@@ -38,7 +38,7 @@ jobs:
 
       - name: Set up Python on server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             export PATH="$HOME/.pyenv/bin:$PATH"
             eval "$(pyenv init --path)"
             eval "$(pyenv init -)"
