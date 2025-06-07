@@ -6,6 +6,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16.0
+        env:
+          POSTGRES_USER: habit_user
+          POSTGRES_PASSWORD: habit_password
+          POSTGRES_DB: habit_tracker_db
+        ports:
+          - 5432:5432
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U habit_user"]
+          interval: 5s
+          timeout: 5s
+          retries: 5
+        options: --health-cmd "pg_isready -U habit_user" --health-interval 5s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:7.0-alpine
+        env:
+          REDIS_PASSWORD: default_redis_pass
+        ports:
+          - 6379:6379
+
     steps:
     - name: Check out code
       uses: actions/checkout@v3
@@ -28,9 +50,46 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Set environment variables
+      run: |
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+        echo "DEBUG=True" >> $GITHUB_ENV
+        echo "ALLOWED_HOSTS=localhost,127.0.0.1" >> $GITHUB_ENV
+        echo "POSTGRES_DB=habit_tracker_db" >> $GITHUB_ENV
+        echo "POSTGRES_USER=habit_user" >> $GITHUB_ENV
+        echo "POSTGRES_PASSWORD=habit_password" >> $GITHUB_ENV
+        echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV
+        echo "POSTGRES_PORT=5432" >> $GITHUB_ENV
+        echo "REDIS_URL=redis://:default_redis_pass@localhost:6379/0" >> $GITHUB_ENV
+
+    - name: Debug environment
+      run: |
+        echo "SECRET_KEY: $SECRET_KEY"
+        echo "DEBUG: $DEBUG"
+        echo "ALLOWED_HOSTS: $ALLOWED_HOSTS"
+        echo "POSTGRES_DB: $POSTGRES_DB"
+        echo "POSTGRES_USER: $POSTGRES_USER"
+        echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+        echo "POSTGRES_HOST: $POSTGRES_HOST"
+        echo "POSTGRES_PORT: $POSTGRES_PORT"
+        echo "REDIS_URL: $REDIS_URL"
+
+    - name: Run migrations
+      run: |
+        python manage.py makemigrations --noinput
+        python manage.py migrate --noinput
+
     - name: Run tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: ${{ env.DEBUG }}
+        ALLOWED_HOSTS: ${{ env.ALLOWED_HOSTS }}
+        POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        POSTGRES_USER: ${{ env.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+        REDIS_URL: ${{ env.REDIS_URL }}
       run: |
         python manage.py test
 
@@ -50,32 +109,3 @@ jobs:
     - name: Generate SECRET_KEY
       run: |
         echo "SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(50))')" >> $GITHUB_ENV
-
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-
-    - name: Test SSH connection
-      run: |
-        ssh -o StrictHostKeyChecking=no -T ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} echo "SSH connection successful"
-
-    - name: Copy project files to server
-      run: |
-        rsync -avz --exclude '__pycache__' . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
-
-    - name: Create .env file on server
-      run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          cd ${{ secrets.DEPLOY_DIR }}
-          echo "SECRET_KEY=${{ env.SECRET_KEY }}" > .env
-          echo "DEBUG=False" >> .env
-          echo "ALLOWED_HOSTS=158.160.87.62,localhost" >> .env
-          echo "POSTGRES_DB=habit_tracker_db" >> .env
-          echo "POSTGRES_USER=habit_user" >> .env
-          echo "POSTGRES_PASSWORD=habit_password" >> .env
-          echo "POSTGRES_HOST=db" >> .env
-          echo "POSTGRES_PORT=5432" >> .env
-          echo "REDIS_URL=redis://:default_redis_pass@redis:6379/0" >> .env
-          echo "TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}" >> .env
-        EOF
