@@ -45,11 +45,11 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build and push Docker images
         run: |
-          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.ymal build
           docker tag habit_tracker-web:latest fwrkin/habit_tracker-web:latest
           docker tag habit_tracker-celery:latest fwrkin/habit_tracker-celery:latest
           docker push fwrkin/habit_tracker-web:latest
-          docker push fwrkin/habit_tracker-celery:latest
+            docker push fwrkin/habit_tracker-celery:latest
       - name: Debug SSH Key and Variables
         run: |
           echo "SSH Key presence check: ${{ secrets.SERVER_SSH_KEY != '' && 'Key exists' || 'Key is empty' }}"
