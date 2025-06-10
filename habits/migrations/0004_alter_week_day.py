@@ -16,4 +16,3 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=3, verbose_name="day of week"),
         ),
     ]
-
