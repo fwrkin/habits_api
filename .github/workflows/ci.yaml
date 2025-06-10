@@ -80,13 +80,13 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
-        run:
-          echo "context: ."
-          echo "file: ./Dockerfile"
-          echo "push: true"
-          echo "tags: ${{ secrets.DOCKER_USERNAME }}/django-app:${{ github.sha }}"
-          echo "cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/django-app:latest"
-          echo "cache-to: type=inline"
+        with:
+#          context: .
+#          file: ./Dockerfile
+#          push: true
+#          tags: ${{ secrets.DOCKER_USERNAME }}/django-app:${{ github.sha }}
+#          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/django-app:latest
+#          cache-to: type=inline
 
   deploy:
     runs-on: ubuntu-latest
@@ -109,7 +109,7 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-        #          ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP << 'EOF'
+#          ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP << 'EOF'
 #            # Log in to Docker Hub
 #            docker login -u $DOCKER_USERNAME -p ${{ secrets.DOCKER_PASSWORD }}
 #
