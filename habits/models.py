@@ -7,6 +7,7 @@ from users.models import User
 
 class Week(models.Model):
     """Model for storing days of week."""
+
     day = models.CharField(max_length=3, verbose_name="day of week")
 
     def __str__(self):
@@ -17,23 +18,16 @@ class Habit(models.Model):
     """Model for storing habits."""
 
     FREQUENCY_CHOICES = (
-        ('daily', 'Ежедневно'),
-        ('weekly', 'Еженедельно'),
-        ('monthly', 'Ежемесячно'),
+        ("daily", "Ежедневно"),
+        ("weekly", "Еженедельно"),
+        ("monthly", "Ежемесячно"),
     )
 
     user = models.ForeignKey(
-        User,
-        verbose_name="user",
-        on_delete=models.CASCADE,
-        related_name="habits",
-        null=True,
-        blank=True
+        User, verbose_name="user", on_delete=models.CASCADE, related_name="habits", null=True, blank=True
     )
     place = models.CharField(
-        max_length=200,
-        verbose_name="place",
-        help_text="Enter the place where you'll perform your habit."
+        max_length=200, verbose_name="place", help_text="Enter the place where you'll perform your habit."
     )
     time = models.TimeField(
         verbose_name="time",
@@ -41,15 +35,11 @@ class Habit(models.Model):
         null=True,
         blank=True,
     )
-    action = models.CharField(
-        max_length=200,
-        verbose_name="action",
-        help_text="Enter the action to perform."
-    )
+    action = models.CharField(max_length=200, verbose_name="action", help_text="Enter the action to perform.")
     is_pleasant = models.BooleanField(
         verbose_name="pleasant or not",
         help_text="Select whether a habit is pleasant or not. "
-                  "Only pleasant habits can serve as rewards for good habits."
+        "Only pleasant habits can serve as rewards for good habits.",
     )
     related_habit = models.ForeignKey(
         "self",
@@ -64,7 +54,7 @@ class Habit(models.Model):
         choices=FREQUENCY_CHOICES,
         verbose_name="frequency",
         help_text="Select how often a good habit should be performed. "
-                  "NOTE! A good habit should be performed at least once a week.",
+        "NOTE! A good habit should be performed at least once a week.",
         default="daily",
         blank=True,
         null=True,
@@ -79,7 +69,7 @@ class Habit(models.Model):
     end_time = models.TimeField(
         verbose_name="end time",
         help_text="Enter the time when a habit should be performed for the last time per day. "
-                  "Only for good habits that should be performed several times per day!",
+        "Only for good habits that should be performed several times per day!",
         null=True,
         blank=True,
     )
@@ -93,12 +83,10 @@ class Habit(models.Model):
         verbose_name="time needed",
         help_text="Enter time needed to perform a habit in seconds. Not more than 2 minutes (120 seconds).",
         validators=[MinValueValidator(1), MaxValueValidator(120)],
-        default=60
+        default=60,
     )
     is_public = models.BooleanField(
-        verbose_name="public or not",
-        help_text="Select whether you want other users to see your habit.",
-        default=False
+        verbose_name="public or not", help_text="Select whether you want other users to see your habit.", default=False
     )
 
     def __str__(self):
