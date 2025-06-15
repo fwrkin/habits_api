@@ -85,11 +85,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Save SSH key
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
       - name: Deploy
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
