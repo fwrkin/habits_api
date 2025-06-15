@@ -14,8 +14,6 @@ class HabitTestCase(TestCase):
             time="12:00:00",
             action="Drink water",
             is_pleasant=False,
-            periodicity=1,
-            duration=5,
         )
 
     def test_habit_creation(self):
