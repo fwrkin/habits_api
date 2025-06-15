@@ -25,8 +25,8 @@ INSTALLED_APPS = [
     "users",
     "habits",
     "rest_framework",
+    "rest_framework.authtoken",
 ]
-
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
@@ -65,7 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 if os.getenv("TEST_ENV"):
     DATABASES = {
         "default": {
@@ -84,7 +83,6 @@ else:
             "PORT": os.getenv("DATABASE_PORT"),
         }
     }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -128,7 +126,7 @@ CSRF_TRUSTED_ORIGINS = ("http://localhost:8000",)
 SPECTACULAR_SETTINGS = {
     "TITLE": "Habits API",
     "DESCRIPTION": "Habits API is an useful habits tracker. The logic of the app is based on the "
-    'book "Atomic Habits" (2018) by James Clear.',
+                   'book "Atomic Habits" (2018) by James Clear.',
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "SWAGGER_UI_SETTINGS": {

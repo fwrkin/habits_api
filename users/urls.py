@@ -9,6 +9,6 @@ app_name = UsersConfig.name
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
-    path("login/", LoginView.as_view(permission_classes=(AllowAny,)), name="token_obtain_pair"),
+    path("login/", LoginView.as_view(), name="login"),
     path("token/refresh", TokenRefreshView.as_view(permission_classes=(AllowAny,)), name="token_refresh"),
 ]
