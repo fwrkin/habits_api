@@ -62,7 +62,7 @@ jobs:
       #          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
       #          context: .
       #          file: ./Dockerfile
       #          push: true
@@ -71,7 +71,7 @@ jobs:
       #          cache-to: type=inline
 
       - name: Push Docker image in Docker hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
 
   deploy:
     needs: build
