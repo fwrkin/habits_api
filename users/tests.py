@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from users.models import CustomUser
+from users.models import User
 
 
 class UserTests(TestCase):
@@ -25,12 +25,12 @@ class UserTests(TestCase):
         self.assertNotIn("refresh", response.data)  # Токены не должны возвращаться
         self.assertNotIn("access", response.data)
         self.assertEqual(response.data["user"]["email"], self.user_data["email"])
-        self.assertEqual(CustomUser.objects.count(), 1)
+        self.assertEqual(User.objects.count(), 1)
 
     def test_login_user(self):
         """Тест авторизации пользователя"""
         # Сначала регистрируем пользователя
-        CustomUser.objects.create_user(email="testuser@example.com", password="testpassword", username="testuser")
+        User.objects.create_user(email="testuser@example.com", password="testpassword", username="testuser")
         url = reverse("token_obtain_pair")
         data = {"email": "testuser@example.com", "password": "testpassword"}
         response = self.client.post(url, data, format="json")
@@ -50,7 +50,7 @@ class UserTests(TestCase):
     def test_refresh_token(self):
         """Тест обновления токена"""
         # Регистрируем пользователя и получаем токены
-        CustomUser.objects.create_user(email="testuser@example.com", password="testpassword", username="testuser")
+        User.objects.create_user(email="testuser@example.com", password="testpassword", username="testuser")
         login_url = reverse("token_obtain_pair")
         login_data = {"email": "testuser@example.com", "password": "testpassword"}
         login_response = self.client.post(login_url, login_data, format="json")
