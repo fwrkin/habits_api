@@ -1,11 +1,8 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import generics
-
 
 from habits.models import Habit
 from habits.paginators import HabitPagination
 from habits.serializers import HabitSerializer, PublicHabitSerializer
-from habits.services import create_replacements, make_replacements
 from users.permissions import IsUser
 
 

@@ -1,6 +1,5 @@
 from django.core.management import BaseCommand, call_command
 
-
 from habits.models import Week
 
 

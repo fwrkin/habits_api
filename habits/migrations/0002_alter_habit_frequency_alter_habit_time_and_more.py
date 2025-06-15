@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("habits", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -30,7 +29,7 @@ class Migration(migrations.Migration):
                     ("m h * * d", "selected days"),
                 ],
                 default="m h * * *",
-                help_text="Select how often a good habit should be performed. NOTE! A good habit should be performed once a week at least. For good habits only!",
+                help_text="Select how often a good habit should be performed. For good habits only!",
                 null=True,
                 verbose_name="frequency",
             ),
@@ -40,7 +39,8 @@ class Migration(migrations.Migration):
             name="time",
             field=models.DateTimeField(
                 blank=True,
-                help_text="Enter the time when a habit should be performed. In case a habit should be performed several times per day, the end time should also be selected. For good habits only!",
+                help_text="""Enter the time when a habit should be performed. In case a habit should be performed
+                several times per day, the end time should also be selected. For good habits only!""",
                 null=True,
                 verbose_name="time",
             ),

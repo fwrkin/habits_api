@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             name="end_time",
             field=models.TimeField(
                 blank=True,
-                help_text="Enter the time when a habit should be performed for the last time per day. Only for good habits that should be performed several times per day!",
+                help_text="Enter the time when a habit should be performed for the last time per day.",
                 null=True,
                 verbose_name="end time",
             ),
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 choices=[("daily", "Ежедневно"), ("weekly", "Еженедельно"), ("monthly", "Ежемесячно")],
                 default="daily",
-                help_text="Select how often a good habit should be performed. NOTE! A good habit should be performed at least once a week.",
+                help_text="Select how often a good habit should be performed.",
                 max_length=20,
                 null=True,
                 verbose_name="frequency",

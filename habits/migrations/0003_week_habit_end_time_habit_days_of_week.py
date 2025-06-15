@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("habits", "0002_alter_habit_frequency_alter_habit_time_and_more"),
     ]
@@ -22,7 +21,8 @@ class Migration(migrations.Migration):
             name="end_time",
             field=models.DateTimeField(
                 blank=True,
-                help_text="Enter the time when a habit should be performed for the last time per day. Only for good habits that should be performed several times per day!",
+                help_text="""Enter the time when a habit should be performed for the last time per day.
+                          Only for good habits that should be performed several times per day!""",
                 null=True,
                 verbose_name="end time",
             ),

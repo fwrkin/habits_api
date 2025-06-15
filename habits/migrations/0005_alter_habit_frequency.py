@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                     ("m h * * d", "selected days"),
                 ],
                 default="m h * * *",
-                help_text="Select how often a good habit should be performed. NOTE! A good habit should be performed once a week at least. For good habits only!",
+                help_text="Select how often a good habit should be performed. For good habits only!",
                 null=True,
                 verbose_name="frequency",
             ),

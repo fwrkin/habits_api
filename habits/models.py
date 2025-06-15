@@ -1,7 +1,6 @@
-from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
-from config.settings import HABIT_FREQUENCY
 from users.models import User
 
 
