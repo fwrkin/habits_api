@@ -85,25 +85,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+    - name: Проверка SSH-ключа
+      run: |
+        echo "$SSH_KEY" > test_key
+        chmod 600 test_key
+        ssh -o StrictHostKeyChecking=no -i test_key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} hostname
+      env:
+        SSH_KEY: ${{ secrets.SSH_KEY }}
 
-      - name: Deploy to server
-        #        env:
-        #          DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
-        #          SSH_USER: ${{ secrets.SSH_USER }}
-        #          SERVER_IP: ${{ secrets.SERVER_IP }}
-        #          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        #          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}<< 'EOF'
-          docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
-          EOF
 #
 #            # Stop and remove existing container (if any)
 #            docker stop django-app || true
