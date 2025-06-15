@@ -85,13 +85,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Проверка SSH-ключа
-      run: |
-        echo "$SSH_KEY" > test_key
-        chmod 600 test_key
-        ssh -o StrictHostKeyChecking=no -i test_key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} hostname
-      env:
-        SSH_KEY: ${{ secrets.SSH_KEY }}
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+            docker stop myapp || true
+            docker rm myapp || true
+            docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+
 
 #
 #            # Stop and remove existing container (if any)
