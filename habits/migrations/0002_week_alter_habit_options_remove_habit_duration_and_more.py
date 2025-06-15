@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             name="end_time",
             field=models.TimeField(
                 blank=True,
-                help_text="Enter the time when a habit should be performed for the last time per day. Only for good habits that should be performed several times per day!",
+                help_text="Enter the time when a habit should be performed for the last time per day.",
                 null=True,
                 verbose_name="end time",
             ),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
             model_name="habit",
             name="is_pleasant",
             field=models.BooleanField(
-                help_text="Select whether a habit is pleasant or not. Only pleasant habits can serve as rewards for good habits.",
+                help_text="Select whether a habit is pleasant or not.",
                 verbose_name="pleasant or not",
             ),
         ),
