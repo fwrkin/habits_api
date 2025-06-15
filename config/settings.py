@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = 'g2(!)nz*516##8w=(_=*)fr&tfy_fc=@ut7&w_ee2u3d!61zkg'
+SECRET_KEY = "g2(!)nz*516##8w=(_=*)fr&tfy_fc=@ut7&w_ee2u3d!61zkg"
 
 DEBUG = os.getenv("DEBUG", False) == "True"
 
@@ -126,7 +126,7 @@ CSRF_TRUSTED_ORIGINS = ("http://localhost:8000",)
 SPECTACULAR_SETTINGS = {
     "TITLE": "Habits API",
     "DESCRIPTION": "Habits API is an useful habits tracker. The logic of the app is based on the "
-                   'book "Atomic Habits" (2018) by James Clear.',
+    'book "Atomic Habits" (2018) by James Clear.',
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "SWAGGER_UI_SETTINGS": {

@@ -20,8 +20,13 @@ class UserTests(TestCase):
 
     def test_login_user(self):
         # Сначала зарегистрируйте пользователя
-        self.client.post(reverse("users:register"), {"username": "testuser", "email": "testuser@example.com", "password": "testpass123"})
-        response = self.client.post(reverse("api-auth:token_obtain_pair"), {"username": "testuser", "password": "testpass123"})
+        self.client.post(
+            reverse("users:register"),
+            {"username": "testuser", "email": "testuser@example.com", "password": "testpass123"},
+        )
+        response = self.client.post(
+            reverse("api-auth:token_obtain_pair"), {"username": "testuser", "password": "testpass123"}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
 
