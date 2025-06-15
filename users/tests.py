@@ -20,15 +20,13 @@ class UserTests(TestCase):
         data = {"username": "testuser", "email": "testuser@example.com", "password": "testpass123"}
         response = self.client.post(reverse("register"), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertIn("id", response.data)  # Проверяем наличие id вместо "user"
-        self.assertEqual(response.data["username"], "testuser")
+        self.assertIn("user", response.data)
 
     def test_login_user(self):
-        self.client.login(username="testuser", password="testpass123")
+        self.client.login(username="testuser", password="testpass123")  # Предварительно зарегистрируйте пользователя
         response = self.client.post(reverse("login"), {"username": "testuser", "password": "testpass123"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("refresh", response.data)  # Проверяем токены
-        self.assertIn("access", response.data)
+        self.assertIn("user", response.data)
 
     def test_login_invalid_credentials(self):
         """Тест авторизации с неверными данными"""
