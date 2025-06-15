@@ -52,8 +52,7 @@ class Habit(models.Model):
         max_length=20,
         choices=FREQUENCY_CHOICES,
         verbose_name="frequency",
-        help_text="Select how often a good habit should be performed. "
-        "NOTE! A good habit should be performed at least once a week.",
+        help_text="Select how often a good habit should be performed.",
         default="daily",
         blank=True,
         null=True,
